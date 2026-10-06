@@ -6,6 +6,7 @@ import Hero from "./pages/Hero"
 import Manifest from "./pages/Manifest"
 import ProductPage from "./pages/ProductPage"
 import Footer from "./pages/Footer"
+import Cart from "./components/Cart"
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                             <CategoryPage />
                             <FavoriteProductPage />
                             <Manifest />
+                            <Cart />
                         </>
                     }
                 />

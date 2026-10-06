@@ -2,10 +2,13 @@ import { Link } from "react-router-dom";
 import { Heart, Menu, Search, ShoppingBag, User, X } from 'lucide-react'
 import { useState } from "react";
 import SearchBar from "./SearchBar";
+import { useCart } from '../context/CartContext';
+
 
 function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
+    const { toggleCart } = useCart();
 
     const menu = [
         { id: 1, label: 'Início', path: '/' },
@@ -52,7 +55,7 @@ function Header() {
                     <Link to="/conta" className="p-2 text-blush-burgundy hover:text-blush-flame" aria-label="Conta">
                         <User size={20} />
                     </Link>
-                    <button className="p-2 text-blush-burgundy hover:text-blush-flame relative" aria-label="Carrinho">
+                    <button onClick={toggleCart} className="p-2 text-blush-burgundy hover:text-blush-flame relative" aria-label="Carrinho">
                         <ShoppingBag size={20} />
                     </button>
                 </div>
