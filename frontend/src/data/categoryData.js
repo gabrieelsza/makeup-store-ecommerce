@@ -1,0 +1,88 @@
+const categories = [
+    {
+        id: 1,
+        number: "01",
+        name: "Rosto",
+        slug: "rosto",
+        image: "../src/assets/cat-face.jpg",
+    },
+    {
+        id: 2,
+        number: "02",
+        name: "Olhos",
+        slug: "olhos",
+        image: "../src/assets/cat-eyes.jpg",
+    },
+    {
+        id: 3,
+        number: "03",
+        name: "Lábios",
+        slug: "labios",
+        image: "../src/assets/cat-lips.jpg",
+    },
+    {
+        id: 4,
+        number: "04",
+        name: "Blush",
+        slug: "blush",
+        image: "../src/assets/cat-face-blush.jpg",
+    },
+    {
+        id: 5,
+        number: "05",
+        name: "Iluminador",
+        slug: "iluminador",
+        image: "../src/assets/cat-face.jpg",
+    },
+    {
+        id: 6,
+        number: "06",
+        name: "Base",
+        slug: "base",
+        image: "../src/assets/cat-face.jpg",
+    },
+    {
+        id: 7,
+        number: "07",
+        name: "Corretivo",
+        slug: "corretivo",
+        image: "../src/assets/cat-face.jpg",
+    },
+    {
+        id: 8,
+        number: "08",
+        name: "Máscara de cílios",
+        slug: "mascara-de-cilios",
+        image: "../src/assets/cat-eyes.jpg",
+    },
+    {
+        id: 9,
+        number: "09",
+        name: "Batom",
+        slug: "batom",
+        image: "../src/assets/cat-lips.jpg",
+    },
+    {
+        id: 10,
+        number: "10",
+        name: "Gloss",
+        slug: "gloss",
+        image: "../src/assets/cat-lips.jpg",
+    },
+    {
+        id: 11,
+        number: "11",
+        name: "Paletas",
+        slug: "paletas",
+        image: "../src/assets/cat-eyes.jpg",
+    },
+    {
+        id: 12,
+        number: "12",
+        name: "Skincare",
+        slug: "skincare",
+        image: "../src/assets/cat-skin.jpg",
+    },
+];
+
+export default categories;

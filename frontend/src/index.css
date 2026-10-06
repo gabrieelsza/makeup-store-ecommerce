@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme inline {
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 10px;
+  --radius-2xl: 14px;
+  --radius-full: 999px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-petal: var(--petal);
+  --color-petal-foreground: var(--petal-foreground);
+  --color-amber: var(--amber);
+  --color-amber-foreground: var(--amber-foreground);
+  --color-blush-burgundy:var(--blush);
+  --color-blush-amber:var(--green-amber);
+  --color-flame: var(--flame);
+  --color-flame-foreground: var(--flame-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lexend", "Poppins", sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
+
+  --shadow-card: 0 1px 0 0 var(--border);
+}
+
+:root {
+  /* Pastel Petal #FFCFE2 · Burgundy #8F0026 · Pale Amber #CDD98D · Blazing Flame #F33F0A */
+  --background: oklch(0.973 0.014 88);
+  --foreground: oklch(0.34 0.155 12);
+  --card: oklch(0.995 0.006 95);
+  --card-foreground: oklch(0.34 0.155 12);
+  --popover: oklch(0.995 0.006 95);
+  --popover-foreground: oklch(0.34 0.155 12);
+  --primary: oklch(0.34 0.155 12);
+  --primary-foreground: oklch(0.985 0.008 95);
+  --secondary: oklch(0.885 0.061 349);
+  --secondary-foreground: oklch(0.34 0.155 12);
+  --muted: oklch(0.945 0.014 88);
+  --muted-foreground: oklch(0.52 0.052 20);
+  --accent: oklch(0.885 0.061 349);
+  --accent-foreground: oklch(0.34 0.155 12);
+  --petal: oklch(0.885 0.061 349);
+  --petal-foreground: oklch(0.34 0.155 12);
+  --amber: oklch(0.874 0.083 111);
+  --amber-foreground: oklch(0.34 0.155 12);
+  --blush: #8F0026;
+  --green-amber: #CDD98D;
+  --flame: oklch(0.622 0.227 35);
+  --flame-foreground: oklch(0.99 0.005 95);
+  --destructive: oklch(0.55 0.2 22);
+  --destructive-foreground: oklch(0.99 0.005 95);
+  --border: oklch(0.34 0.155 12 / 15%);
+  --input: oklch(0.34 0.155 12 / 22%);
+  --ring: oklch(0.622 0.227 35);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-flame);
+    color: var(--color-flame-foreground);
+  }
+}
+
+/* Editorial mono label: "NEW DROP", "01 — FACE" */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+/* Thin editorial rule used between sections */
+@utility rule-hairline {
+  border-top: 1px solid var(--color-border);
+}
+
+@utility marquee-track {
+  animation: blush-marquee 26s linear infinite;
+}
+
+@keyframes blush-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility petal-blob {
+  border-radius: 62% 38% 55% 45% / 48% 55% 45% 52%;
+}
+
+@utility pop-in {
+  animation: blush-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes blush-pop {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@utility fade-up {
+  animation: blush-fade-up 0.45s ease-out both;
+}
+
+@keyframes blush-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.5s ease-out both; }

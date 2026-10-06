@@ -1,0 +1,323 @@
+// schema.prisma
+// BLUSH - E-commerce de Maquiagem
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum OrderStatus {
+  PENDENTE
+  CONFIRMADO
+  PREPARANDO
+  ENVIADO
+  ENTREGUE
+  CANCELADO
+}
+
+enum PaymentMethod {
+  CARTAO
+  PIX
+  BOLETO
+}
+
+enum PaymentStatus {
+  PENDENTE
+  PAGO
+  CANCELADO
+  REEMBOLSADO
+}
+
+// ============================================
+// USUARIO E AUTENTICACAO
+// ============================================
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // Hash da senha (bcrypt)
+  nome      String
+  cpf       String   @unique
+  telefone  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  addresses   Address[]
+  orders      Order[]
+  favorites   Favorite[]
+  cart        Cart?
+  reviews     Review[]
+
+  @@map("users")
+}
+
+// ============================================
+// ENDERECOS
+// ============================================
+
+model Address {
+  id          Int    @id @default(autoincrement())
+  userId      Int
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cep         String
+  rua         String
+  numero      String
+  complemento String?
+  bairro      String
+  cidade      String
+  estado      String
+  padrao      Boolean @default(false) // Endereço principal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("addresses")
+}
+
+// ============================================
+// PRODUTOS E VARIANTES
+// ============================================
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  slug        String   @unique // URL amigavel
+  categoria   String   // "Rosto", "Olhos", "Labios", etc.
+  subcategoria String? // "Blush", "Base", "Batom", etc.
+  descricao   String
+  preco       Decimal  @db.Decimal(10, 2)
+  precoPromocional Decimal? @db.Decimal(10, 2) // Null se não houver promoção
+  estoque     Int      @default(0)
+  marca       String   @default("BLUSH")
+  acabamento  String?  // "Matte", "Glossy", "Natural", etc.
+  beneficios  String?  // Lista de benefícios
+  modoUso     String?  // Instruçºµes de uso
+  ingredientes String? // Lista de ingredientes
+  ativo       Boolean  @default(true)
+
+  // Mí´´dia
+  imagemPrincipal String
+  imagens         String[] // Array de URLs de imagens
+
+  // Avaliaçºµes
+  avaliacaoMedia      Decimal @default(0) @db.Decimal(3, 2) // 0.00 a 5.00
+  quantidadeAvaliacoes Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  variants   ProductVariant[]
+  orderItems OrderItem[]
+  reviews    Review[]
+  cartItems  CartItem[]
+  favorites  Favorite[]
+
+  @@index([categoria])
+  @@index([subcategoria])
+  @@index([ativo])
+  @@map("products")
+}
+
+// ============================================
+// VARIANTES DE PRODUTO (TONALIDADES)
+// ============================================
+
+model ProductVariant {
+  id        Int    @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  nome      String
+  codigo    String
+  corHex    String?
+  estoque   Int    @default(0)
+  ativo     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos inversos (NOVO!)
+  cartItems CartItem[]
+  orderItems OrderItem[]
+
+  @@unique([productId, codigo])
+  @@map("product_variants")
+}
+
+
+// ============================================
+// CARRINHO
+// ============================================
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  items     CartItem[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  cartId    Int
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  
+  variantId Int?     // Null se produto não tiver variante
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  
+  quantidade Int     @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId, variantId])
+  @@map("cart_items")
+}
+
+// ============================================
+// PEDIDOS
+// ============================================
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  numero          String      @unique // "ORD-2026-0001"
+  userId          Int
+  user            User        @relation(fields: [userId], references: [id])
+  
+  // Endereço de entrega (snapshot no momento do pedido)
+  enderecoEntrega String
+  cep             String
+  cidade          String
+  estado          String
+  
+  // Valores
+  subtotal        Decimal     @db.Decimal(10, 2)
+  frete           Decimal     @db.Decimal(10, 2) @default(0)
+  desconto        Decimal     @db.Decimal(10, 2) @default(0)
+  total           Decimal     @db.Decimal(10, 2)
+  
+  // Cupom
+  cupomCodigo     String?
+  cupomDesconto   Decimal?    @db.Decimal(10, 2)
+  
+  // Status
+  status          OrderStatus @default(PENDENTE)
+  
+  // Pagamento
+  pagamentoMethod PaymentMethod?
+  pagamentoStatus PaymentStatus @default(PENDENTE)
+  
+  items           OrderItem[]
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  
+  variantId Int?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  
+  quantidade Int
+  precoUnitario Decimal @db.Decimal(10, 2) // Preço no momento do pedido
+  
+  subtotal  Decimal @db.Decimal(10, 2)
+
+  @@map("order_items")
+}
+
+// ============================================
+// FAVORITOS
+// ============================================
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@map("favorites")
+}
+
+// ============================================
+// AVALIAÇºES / REVIEWS
+// ============================================
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  nota      Int      // 1 a 5
+  titulo    String?
+  comentario String?
+  aprovado  Boolean  @default(false) // Moderaçºµo
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@map("reviews")
+}
+
+// ============================================
+// CUPONS DE DESCONTO
+// ============================================
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  codigo      String   @unique
+  descricao   String?
+  
+  tipoDesconto String  // "PORCENTAGEM" ou "FIXO"
+  valor       Decimal  @db.Decimal(10, 2)
+  valorMinimo Decimal? @db.Decimal(10, 2) // Compra mí­nima para usar
+  
+  validoDe    DateTime
+  validoAte   DateTime
+  
+  ativo       Boolean  @default(true)
+  usoLimite   Int?     // Null = ilimitado
+  usoCount    Int      @default(0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("coupons")
+}
