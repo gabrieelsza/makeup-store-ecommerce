@@ -14,6 +14,7 @@ export const FavoriteProductPage = () => {
             <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 mt-10">
                 {products.map((favorite) => (
                     <FavoriteProducts
+                        slug={favorite.slug}
                         key={favorite.id}
                         code={favorite.code}
                         category={favorite.category}

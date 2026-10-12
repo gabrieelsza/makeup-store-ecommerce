@@ -13,7 +13,7 @@ function Header() {
     const menu = [
         { id: 1, label: 'Início', path: '/' },
         { id: 2, label: 'Maquiagem', path: '/busca' },
-        { id: 3, label: 'Rosto', path: '/busca' },
+        { id: 3, label: 'Rosto', path: '/busca?cat=rosto' },
         { id: 4, label: 'Olhos', path: '/busca?cat=olhos' },
         { id: 5, label: 'Lábios', path: '/busca?cat=labios' },
         { id: 6, label: 'Skincare', path: '/busca?cat=rosto' },

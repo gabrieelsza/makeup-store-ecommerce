@@ -7,6 +7,8 @@ import Manifest from "./pages/Manifest"
 import ProductPage from "./pages/ProductPage"
 import Footer from "./pages/Footer"
 import Cart from "./components/Cart"
+import ProductDetail from "./components/ProductDeital"
+
 
 function App() {
     return (
@@ -30,6 +32,10 @@ function App() {
                 <Route
                     path="/busca"
                     element={<ProductPage />}
+                />
+                <Route 
+                    path="/produto/:slug" 
+                    element={<ProductDetail />} 
                 />
             </Routes>
 

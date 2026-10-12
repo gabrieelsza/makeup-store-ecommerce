@@ -11,7 +11,7 @@ const Cart = () => {
 
         const onKeyDown = (e) => e.key === 'Escape' && closeCart();
         document.addEventListener('keydown', onKeyDown);
-        document.body.style.overflow = 'hidden';
+        // document.body.classList.add('bg-primary/35', 'backdrop-blur-sm');
 
         return () => {
             document.removeEventListener('keydown', onKeyDown);
@@ -22,16 +22,14 @@ const Cart = () => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50">
-
-            <aside className='absolute right-0 top-0 flex h-full w-full max-w-md translate-x-0 flex-col border-l border-border bg-background shadow-xl duration-300 animate-in slide-in-from-right'>
+            <aside className='fixed z-50 right-0 top-0 flex h-full w-full max-w-md translate-x-0 flex-col border-l border-border bg-background shadow-xl duration-300 animate-in slide-in-from-right'>
                 <div className="flex items-center justify-between border-b border-border px-5 py-4">
                     <span className="label-mono">
                         Sua sacola
                     </span>
 
                     <button className="grid h-9 w-9 place-items-center hover:text-flame">
-                        <X />
+                        <X onClick={closeCart}/>
                     </button>
                 </div>
 
@@ -54,7 +52,6 @@ const Cart = () => {
                     </div>
                 </div>
             </aside>
-        </div>
     )
 }
 

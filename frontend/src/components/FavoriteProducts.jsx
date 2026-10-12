@@ -1,7 +1,8 @@
 import { Heart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const FavoriteProducts = ({ id,
+const FavoriteProducts = ({
+    slug,
     code,
     category,
     name,
@@ -10,12 +11,13 @@ const FavoriteProducts = ({ id,
     reviews,
     price,
     oldPrice,
-    discount }) => {
+    discount 
+}) => {
 
     const ratingTotal = Number(rating) || 0;
 
     return (
-        <article className="group relative flex flex-col">
+        <Link to={`/produto/${slug}`} className="group relative flex flex-col">
             <div className="relative overflow-hidden bg-card">
                 <Link>
                     <img src={image} alt="" className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]" />
@@ -73,7 +75,7 @@ const FavoriteProducts = ({ id,
                     )}
                 </div>
             </div>
-        </article>
+        </Link>
     )
 }
 
