@@ -8,6 +8,7 @@ import ProductPage from "./pages/ProductPage"
 import Footer from "./pages/Footer"
 import Cart from "./components/Cart"
 import ProductDetail from "./components/ProductDeital"
+import Offer from "./pages/Offer"
 
 
 function App() {
@@ -37,6 +38,12 @@ function App() {
                     path="/produto/:slug" 
                     element={<ProductDetail />} 
                 />
+
+                <Route 
+                    path="/ofertas" 
+                    element={<Offer />} 
+                />
+                
             </Routes>
 
             <Footer />

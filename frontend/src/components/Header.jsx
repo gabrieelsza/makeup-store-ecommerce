@@ -17,7 +17,7 @@ function Header() {
         { id: 4, label: 'Olhos', path: '/busca?cat=olhos' },
         { id: 5, label: 'Lábios', path: '/busca?cat=labios' },
         { id: 6, label: 'Skincare', path: '/busca?cat=rosto' },
-        { id: 7, label: 'Ofertas', path: '/busca?sale=1' },
+        { id: 7, label: 'Ofertas', path: '/ofertas' },
     ];
 
     return (
