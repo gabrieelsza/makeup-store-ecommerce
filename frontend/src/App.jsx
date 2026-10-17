@@ -9,6 +9,7 @@ import Footer from "./pages/Footer"
 import Cart from "./components/Cart"
 import ProductDetail from "./components/ProductDeital"
 import Offer from "./pages/Offer"
+import YourFavorites from "./pages/YourFavorites"
 
 
 function App() {
@@ -42,6 +43,11 @@ function App() {
                 <Route 
                     path="/ofertas" 
                     element={<Offer />} 
+                />
+
+                <Route 
+                    path="/favoritos" 
+                    element={<YourFavorites />} 
                 />
                 
             </Routes>
