@@ -10,6 +10,7 @@ import Cart from "./components/Cart"
 import ProductDetail from "./components/ProductDeital"
 import Offer from "./pages/Offer"
 import YourFavorites from "./pages/YourFavorites"
+import Account from "./pages/Account"
 
 
 function App() {
@@ -48,6 +49,11 @@ function App() {
                 <Route 
                     path="/favoritos" 
                     element={<YourFavorites />} 
+                />
+
+                <Route 
+                    path="/conta" 
+                    element={<Account/>} 
                 />
                 
             </Routes>

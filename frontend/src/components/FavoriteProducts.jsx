@@ -62,10 +62,10 @@ const FavoriteProducts = ({
                 </div>
 
                 <div className="flex flex-wrap items-baseline gap-2 font-mono mt-auto pt-1">
-                    <p className="text-sm font-medium"> R$ {price.toFixed(2)}</p>
+                    <p className="text-sm font-medium"> R$ {price}</p>
                     {oldPrice && (
                         <p className="text-[11px] text-muted-foreground line-through">
-                            R$ {oldPrice.toFixed(2)}
+                            R$ {oldPrice}
                         </p>
                     )}
                     {discount > 0 && (
